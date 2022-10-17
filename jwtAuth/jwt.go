@@ -4,6 +4,7 @@ import (
 	"context"
 	jwt "github.com/gogf/gf-jwt/v2"
 	"github.com/gogf/gf/v2/frame/g"
+	"github.com/gogf/gf/v2/net/ghttp"
 	"github.com/gogf/gf/v2/os/gcache"
 	"github.com/gogf/gf/v2/os/gctx"
 	"time"
@@ -11,7 +12,7 @@ import (
 
 var authService *jwt.GfJWTMiddleware
 
-type GetUserHandle func(ctx context.Context, in UserLoginInput) map[string]any
+type GetUserHandle func(r *ghttp.Request) map[string]any
 
 var getUserFunc GetUserHandle
 
@@ -19,11 +20,6 @@ func Auth(userFunc GetUserHandle) *jwt.GfJWTMiddleware {
 	getUserFunc = userFunc
 
 	return authService
-}
-
-type UserLoginInput struct {
-	UserName string
-	Password string
 }
 
 func init() {
@@ -98,16 +94,7 @@ func Unauthorized(ctx context.Context, code int, message string) {
 // 如果你的 identityKey 是 'id'，你的用户数据必须有 'id'
 // 检查错误 (e) 以确定适当的错误消息。
 func Authenticator(ctx context.Context) (any, error) {
-	var (
-		r  = g.RequestFromCtx(ctx)
-		in UserLoginInput
-	)
-
-	if err := r.Parse(&in); err != nil {
-		return "", err
-	}
-
-	if user := getUserFunc(ctx, in); user != nil {
+	if user := getUserFunc(g.RequestFromCtx(ctx)); user != nil {
 		return user, nil
 	}
 
