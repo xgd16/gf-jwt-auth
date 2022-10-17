@@ -16,9 +16,12 @@ type GetUserHandle func(r *ghttp.Request) map[string]any
 
 var getUserFunc GetUserHandle
 
-func Auth(userFunc GetUserHandle) *jwt.GfJWTMiddleware {
+// SetGetUserFunc 设置获取用函数
+func SetGetUserFunc(userFunc GetUserHandle) {
 	getUserFunc = userFunc
+}
 
+func Auth() *jwt.GfJWTMiddleware {
 	return authService
 }
 
