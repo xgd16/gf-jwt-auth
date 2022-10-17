@@ -1,0 +1,1 @@
+# 用于GO GF框架的 JWT AUTH 解耦
