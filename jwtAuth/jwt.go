@@ -2,6 +2,7 @@ package jwtAuth
 
 import (
 	"context"
+	"errors"
 	jwt "github.com/gogf/gf-jwt/v2"
 	"github.com/gogf/gf/v2/frame/g"
 	"github.com/gogf/gf/v2/net/ghttp"
@@ -13,12 +14,19 @@ import (
 var authService *jwt.GfJWTMiddleware
 
 type GetUserHandle func(r *ghttp.Request) map[string]any
+type AuthenticatorCallbackHandle func(r *ghttp.Request) error
 
 var getUserFunc GetUserHandle
+var authenticatorCallback AuthenticatorCallbackHandle = nil
 
 // SetGetUserFunc 设置获取用函数
 func SetGetUserFunc(userFunc GetUserHandle) {
 	getUserFunc = userFunc
+}
+
+// SetAuthenticatorEvent 设置验证登录事件需要执行的内容
+func SetAuthenticatorEvent(fn AuthenticatorCallbackHandle) {
+	authenticatorCallback = fn
 }
 
 func Auth() *jwt.GfJWTMiddleware {
@@ -84,8 +92,10 @@ func Unauthorized(ctx context.Context, code int, message string) {
 		message = "登录已过期请重新登录"
 	}
 
+	r.Response.Status = code
+
 	r.Response.WriteJson(g.Map{
-		"code": code,
+		"code": 1001,
 		"msg":  message,
 	})
 
@@ -97,9 +107,17 @@ func Unauthorized(ctx context.Context, code int, message string) {
 // 如果你的 identityKey 是 'id'，你的用户数据必须有 'id'
 // 检查错误 (e) 以确定适当的错误消息。
 func Authenticator(ctx context.Context) (any, error) {
-	if user := getUserFunc(g.RequestFromCtx(ctx)); user != nil {
+	r := g.RequestFromCtx(ctx)
+
+	if user := getUserFunc(r); user != nil {
 		return user, nil
 	}
 
-	return nil, jwt.ErrFailedAuthentication
+	if authenticatorCallback != nil {
+		if err := authenticatorCallback(r); err != nil {
+			return nil, err
+		}
+	}
+
+	return nil, errors.New("无效的登录凭证")
 }
