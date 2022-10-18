@@ -1,4 +1,4 @@
-module github.com/xgd16/gf-jwt-auth
+module gogs.mirlowz.com/x/gf-jwt-auth
 
 go 1.19
 
