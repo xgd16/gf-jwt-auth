@@ -3,6 +3,7 @@ package jwtAuth
 import (
 	"context"
 	jwt "github.com/gogf/gf-jwt/v2"
+	"github.com/gogf/gf/v2/container/gvar"
 	"github.com/gogf/gf/v2/crypto/gmd5"
 	"github.com/gogf/gf/v2/frame/g"
 	"github.com/gogf/gf/v2/os/gcache"
@@ -16,8 +17,8 @@ func GetIdentity(ctx context.Context) *g.Var {
 }
 
 // GetLoginData 获取登录数据
-func GetLoginData(ctx context.Context) g.Map {
-	return jwt.ExtractClaims(ctx)
+func GetLoginData(ctx context.Context) map[string]*gvar.Var {
+	return gvar.New(jwt.ExtractClaims(ctx), true).MapStrVar()
 }
 
 // ParseTokenData 解析token的数据
