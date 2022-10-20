@@ -95,6 +95,8 @@ func Unauthorized(ctx context.Context, code int, message string) {
 	switch message {
 	case "Token is expired", "signature is invalid":
 		message = "登录已过期请重新登录"
+	case "cookie token is empty":
+		message = "没有找到 Token"
 	}
 
 	r.Response.Status = code
