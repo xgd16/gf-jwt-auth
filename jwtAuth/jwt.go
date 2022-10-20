@@ -34,17 +34,22 @@ func Auth() *jwt.GfJWTMiddleware {
 }
 
 func init() {
-	jwtKey, err := g.Cfg().Get(gctx.New(), "system.jwtKey")
+	ctx := gctx.New()
+
+	jwtKey, err := g.Cfg().Get(ctx, "jwt.key")
+	realm, err := g.Cfg().Get(ctx, "jwt.realm")
+	timeOut, err := g.Cfg().Get(ctx, "jwt.timeOut")
+	maxRefresh, err := g.Cfg().Get(ctx, "jwt.maxRefresh")
 
 	if err != nil || jwtKey.IsEmpty() {
 		panic("读取 JWT 数据失败")
 	}
 
 	auth := jwt.New(&jwt.GfJWTMiddleware{
-		Realm:           "sdt",
+		Realm:           realm.String(),
 		Key:             jwtKey.Bytes(),
-		Timeout:         time.Second * 86400 * 2,
-		MaxRefresh:      time.Second * 86400 * 3,
+		Timeout:         time.Second * 86400 * timeOut.Duration(),
+		MaxRefresh:      time.Second * 86400 * maxRefresh.Duration(),
 		IdentityKey:     "id",
 		TokenLookup:     "header: Authorization, query: token, cookie: jwt",
 		TokenHeadName:   "Bearer",
