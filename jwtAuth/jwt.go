@@ -12,6 +12,8 @@ import (
 	"time"
 )
 
+var JwtDataMap map[string]*JwtAuth
+
 type JwtAuth struct {
 	name                  string
 	auth                  *jwt.GfJWTMiddleware
@@ -65,6 +67,8 @@ func (t *JwtAuth) Create() *JwtAuth {
 		IdentityHandler: t.IdentityHandler(),
 		CacheAdapter:    gcache.NewAdapterRedis(g.Redis()),
 	})
+
+	JwtDataMap[t.name] = t
 
 	return t
 }
