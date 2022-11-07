@@ -12,7 +12,7 @@ import (
 	"time"
 )
 
-var JwtDataMap map[string]*JwtAuth
+var JwtDataMap = map[string]*JwtAuth{}
 
 type JwtAuth struct {
 	name                  string
