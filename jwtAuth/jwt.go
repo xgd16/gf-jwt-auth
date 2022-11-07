@@ -39,10 +39,10 @@ func New(name string) *JwtAuth {
 func (t *JwtAuth) Create() *JwtAuth {
 	ctx := gctx.New()
 
-	jwtKey, err := g.Cfg().Get(ctx, fmt.Sprintf("jwt.%sKey", t.name))
-	realm, err := g.Cfg().Get(ctx, fmt.Sprintf("jwt.%sRealm", t.name))
-	timeOut, err := g.Cfg().Get(ctx, fmt.Sprintf("jwt.%TimeOut", t.name))
-	maxRefresh, err := g.Cfg().Get(ctx, fmt.Sprintf("jwt.%sMaxRefresh", t.name))
+	jwtKey, err := g.Cfg().Get(ctx, fmt.Sprintf("%sJwt.key", t.name))
+	realm, err := g.Cfg().Get(ctx, fmt.Sprintf("%sJwt.realm", t.name))
+	timeOut, err := g.Cfg().Get(ctx, fmt.Sprintf("%sJwt.timeOut", t.name))
+	maxRefresh, err := g.Cfg().Get(ctx, fmt.Sprintf("%sJwt.maxRefresh", t.name))
 
 	if err != nil || jwtKey.IsEmpty() {
 		panic("读取 JWT 数据失败")
