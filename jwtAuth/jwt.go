@@ -23,13 +23,15 @@ type GetUserHandle func(r *ghttp.Request) map[string]any
 type AuthenticatorCallbackHandle func(r *ghttp.Request) error
 
 // SetGetUserFunc 设置获取用函数
-func (t *JwtAuth) SetGetUserFunc(userFunc GetUserHandle) {
+func (t *JwtAuth) SetGetUserFunc(userFunc GetUserHandle) *JwtAuth {
 	t.getUserFunc = userFunc
+	return t
 }
 
 // SetAuthenticatorEvent 设置验证登录事件需要执行的内容
-func (t *JwtAuth) SetAuthenticatorEvent(fn AuthenticatorCallbackHandle) {
+func (t *JwtAuth) SetAuthenticatorEvent(fn AuthenticatorCallbackHandle) *JwtAuth {
 	t.authenticatorCallback = fn
+	return t
 }
 
 func New(name string) *JwtAuth {
