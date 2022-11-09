@@ -49,7 +49,7 @@ func (t *JwtAuth) Create() *JwtAuth {
 	maxRefresh, err := g.Cfg().Get(ctx, fmt.Sprintf("%sJwt.maxRefresh", t.name))
 
 	if err != nil || jwtKey.IsEmpty() {
-		panic("读取 JWT 数据失败")
+		panic("读取 JWT 数据失败: " + err.Error())
 	}
 
 	t.auth = jwt.New(&jwt.GfJWTMiddleware{
