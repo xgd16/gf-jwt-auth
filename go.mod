@@ -1,10 +1,11 @@
-module gogs.mirlowz.com/x/gf-jwt-auth
+module github.com/xgd16/gf-jwt-auth
 
 go 1.19
 
 require (
 	github.com/gogf/gf-jwt/v2 v2.0.1
 	github.com/gogf/gf/v2 v2.2.0
+	github.com/golang-jwt/jwt/v4 v4.3.0
 )
 
 require (
@@ -17,7 +18,6 @@ require (
 	github.com/go-logr/logr v1.2.3 // indirect
 	github.com/go-logr/stdr v1.2.2 // indirect
 	github.com/go-redis/redis/v8 v8.11.5 // indirect
-	github.com/golang-jwt/jwt/v4 v4.3.0 // indirect
 	github.com/gorilla/websocket v1.5.0 // indirect
 	github.com/grokify/html-strip-tags-go v0.0.1 // indirect
 	github.com/magiconair/properties v1.8.6 // indirect
