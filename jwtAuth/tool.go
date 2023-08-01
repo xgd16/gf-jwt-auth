@@ -6,10 +6,32 @@ import (
 	"github.com/gogf/gf/v2/container/gvar"
 	"github.com/gogf/gf/v2/crypto/gmd5"
 	"github.com/gogf/gf/v2/frame/g"
+	"github.com/gogf/gf/v2/net/ghttp"
 	"github.com/gogf/gf/v2/os/gcache"
 	jwtV4 "github.com/golang-jwt/jwt/v4"
 	"time"
 )
+
+// UserCtxKey 用户 ctx key
+const UserCtxKey = "userInfo"
+
+// GetIdFromCtx 通过 ctx 获取 id
+func GetIdFromCtx(r *ghttp.Request) int {
+	if m, ok := r.GetCtxVar(UserCtxKey).MapStrVar()["id"]; ok {
+		return m.Int()
+	}
+	panic("获取不到登陆 id")
+}
+
+// GetDataFromCtx 通过 ctx 获取登陆 数据
+func GetDataFromCtx[T any](r *ghttp.Request) (data *T, err error) {
+	data = new(T)
+	err = r.GetCtxVar(UserCtxKey).Scan(data)
+	if err != nil {
+		return
+	}
+	return
+}
 
 // GetIdentity 获取身份主键
 func GetIdentity(ctx context.Context, jwtName string) *g.Var {
