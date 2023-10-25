@@ -13,6 +13,7 @@ import (
 )
 
 var JwtDataMap = map[string]*JwtAuth{}
+var JwtResp func(r *ghttp.Request, msg string) = nil
 
 type JwtAuth struct {
 	name                  string
@@ -119,12 +120,15 @@ func (t *JwtAuth) Unauthorized() func(ctx context.Context, code int, message str
 			message = "无效的 Token"
 		}
 
-		r.Response.Status = code
-
-		r.Response.WriteJson(g.Map{
-			"code": 1001,
-			"msg":  message,
-		})
+		if JwtResp != nil {
+			JwtResp(r, message)
+		} else {
+			r.Response.Status = code
+			r.Response.WriteJson(g.Map{
+				"code": 1001,
+				"msg":  message,
+			})
+		}
 
 		r.ExitAll()
 	}
