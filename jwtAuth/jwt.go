@@ -4,11 +4,11 @@ import (
 	"context"
 	"errors"
 	"fmt"
-	jwt "github.com/gogf/gf-jwt/v2"
 	"github.com/gogf/gf/v2/frame/g"
 	"github.com/gogf/gf/v2/net/ghttp"
 	"github.com/gogf/gf/v2/os/gcache"
 	"github.com/gogf/gf/v2/os/gctx"
+	jwt "github.com/xgd16/gf-jwt/v2"
 	"time"
 )
 

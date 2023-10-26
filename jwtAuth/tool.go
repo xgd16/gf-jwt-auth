@@ -2,13 +2,13 @@ package jwtAuth
 
 import (
 	"context"
-	jwt "github.com/gogf/gf-jwt/v2"
 	"github.com/gogf/gf/v2/container/gvar"
 	"github.com/gogf/gf/v2/crypto/gmd5"
 	"github.com/gogf/gf/v2/frame/g"
 	"github.com/gogf/gf/v2/net/ghttp"
 	"github.com/gogf/gf/v2/os/gcache"
 	jwtV4 "github.com/golang-jwt/jwt/v4"
+	jwt "github.com/xgd16/gf-jwt/v2"
 	"time"
 )
 

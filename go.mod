@@ -3,12 +3,10 @@ module github.com/xgd16/gf-jwt-auth
 go 1.19
 
 require (
-	github.com/gogf/gf-jwt/v2 v2.1.0
 	github.com/gogf/gf/v2 v2.5.6
 	github.com/golang-jwt/jwt/v4 v4.5.0
+	github.com/xgd16/gf-jwt/v2 v2.1.2
 )
-
-replace github.com/gogf/gf-jwt/v2 v2.1.0 => github.com/xgd16/gf-jwt/v2 v2.1.2
 
 require (
 	github.com/BurntSushi/toml v1.3.2 // indirect
