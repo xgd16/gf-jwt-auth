@@ -5,7 +5,7 @@ go 1.19
 require (
 	github.com/gogf/gf/v2 v2.5.6
 	github.com/golang-jwt/jwt/v4 v4.5.0
-	github.com/xgd16/gf-jwt/v2 v2.1.3
+	github.com/xgd16/gf-jwt/v2 v2.1.4
 )
 
 require (
